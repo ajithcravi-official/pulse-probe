@@ -1,0 +1,10 @@
+{
+  "name": "pulse-probe-ui-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/pulse-probe-ui-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["pulse-probe-ui"],
+  "// targets": "to see all targets run: nx show project pulse-probe-ui-e2e --web",
+  "targets": {}
+}
