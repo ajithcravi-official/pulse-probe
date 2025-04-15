@@ -22,7 +22,10 @@
             "input": "apps/pulse-probe-ui/public"
           }
         ],
-        "styles": ["apps/pulse-probe-ui/src/styles.scss"],
+        "styles": [
+          "node_modules/bootstrap/dist/css/bootstrap.min.css",
+          "apps/pulse-probe-ui/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
