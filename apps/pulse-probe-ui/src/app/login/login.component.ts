@@ -1,11 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
-  FormBuilder,
   FormGroup,
   Validators,
   ReactiveFormsModule,
+  NonNullableFormBuilder,
+  FormControl,
 } from '@angular/forms';
+
+interface LoginForm {
+  email: FormControl<string>;
+  password: FormControl<string>;
+}
 
 @Component({
   standalone: true,
@@ -17,10 +23,12 @@ import {
 export class LoginComponent {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+  constructor(private fb: NonNullableFormBuilder) {
+    this.form = this.fb.group<LoginForm>({
+      email: this.fb.control('', {
+        validators: [Validators.required, Validators.email],
+      }),
+      password: this.fb.control('', { validators: [Validators.required] }),
     });
   }
 
