@@ -1,0 +1,45 @@
+<div class="d-flex flex-nowrap vh-100">
+  <!-- Sidebar -->
+  <div
+    class="d-flex flex-column flex-shrink-0 p-3 bg-light"
+    style="width: 280px"
+  >
+    <!-- Header -->
+    <a
+      class="d-flex flex-column align-items-start mb-3 mb-md-0 me-md-auto text-decoration-none"
+    >
+      <span class="fs-4 fw-bold">Pulse Probe</span>
+      <small class="text-muted">Ajith CR</small>
+      <!-- you can dynamically load the name -->
+    </a>
+
+    <hr />
+
+    <!-- Navigation -->
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a
+          routerLink="/dashboard"
+          routerLinkActive="active"
+          class="nav-link link-dark"
+        >
+          <i class="bi bi-speedometer2 me-2"></i>
+          Dashboard
+        </a>
+      </li>
+    </ul>
+
+    <hr class="mt-auto" />
+
+    <!-- Logout button -->
+    <button class="btn btn-outline-danger w-100" (click)="logout()">
+      <i class="bi bi-box-arrow-right me-2"></i>
+      Logout
+    </button>
+  </div>
+
+  <!-- Main content -->
+  <div class="flex-grow-1 p-4">
+    <router-outlet></router-outlet>
+  </div>
+</div>
