@@ -13,6 +13,7 @@ import { AuthService } from '../../../service/auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { ToastService } from '../../../service/toast/toast.service';
 import { LoaderService } from '../../../service/loader/loader.service';
+import { finalize } from 'rxjs';
 
 interface RegisterForm {
   name: FormControl<string | null>;
@@ -66,16 +67,18 @@ export class RegisterComponent {
       this.loaderService.startLoading();
       const { name, email, password } = this.form.value;
 
-      this.auth.register({ name, email, password }).subscribe({
-        next: () => {
-          console.log('Registered successfully');
-          this.router.navigate(['/login']);
-        },
-        error: (err) => {
-          this.toast.error(err?.error?.message || 'Registration failed');
-        },
-        complete: () => this.loaderService.stopLoading(),
-      });
+      this.auth
+        .register({ name, email, password })
+        .pipe(finalize(() => this.loaderService.stopLoading()))
+        .subscribe({
+          next: () => {
+            console.log('Registered successfully');
+            this.router.navigate(['/login']);
+          },
+          error: (err) => {
+            this.toast.error(err?.error?.message || 'Registration failed');
+          },
+        });
     }
   }
 }

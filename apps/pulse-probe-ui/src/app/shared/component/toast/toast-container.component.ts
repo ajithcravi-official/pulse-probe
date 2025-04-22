@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule, NgFor } from '@angular/common';
 import { ToastService } from '../../../service/toast/toast.service';
 
 @Component({
   selector: 'app-toast-container',
   standalone: true,
-  imports: [CommonModule, NgbToastModule],
+  imports: [CommonModule, NgFor],
   templateUrl: './toast-container.component.html',
 })
 export class ToastContainerComponent {

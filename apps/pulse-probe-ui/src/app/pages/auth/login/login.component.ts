@@ -11,6 +11,7 @@ import { AuthService } from '../../../service/auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { ToastService } from '../../../service/toast/toast.service';
 import { LoaderService } from '../../../service/loader/loader.service';
+import { finalize } from 'rxjs';
 
 interface LoginForm {
   email: FormControl<string>;
@@ -46,16 +47,25 @@ export class LoginComponent {
     if (this.form.valid) {
       this.loaderService.startLoading();
       const { email, password } = this.form.value;
-      this.auth.login({ email, password }).subscribe({
-        next: (res) => {
-          this.auth.storeToken(res.access_token);
-          this.router.navigate(['app/dashboard']);
-        },
-        error: (err) => {
-          this.toast.error(err?.error?.message || 'Login failed');
-        },
-        complete: () => this.loaderService.stopLoading(),
-      });
+      this.auth
+        .login({ email, password })
+        .pipe(finalize(() => this.loaderService.stopLoading()))
+        .subscribe({
+          next: (res) => {
+            const token = res.data?.access_token;
+
+            if (token) {
+              this.auth.storeToken(token);
+              this.toast.success('Login successful!');
+              this.router.navigate(['/app/dashboard']);
+            } else {
+              this.toast.error('No auth token received');
+            }
+          },
+          error: (err) => {
+            this.toast.error(err?.message || 'Login failed');
+          },
+        });
     }
   }
 }

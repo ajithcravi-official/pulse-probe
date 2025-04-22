@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ApiResponse } from '../../shared/interface/api-response.interface';
 
 interface RegisterDto {
   name: string;
@@ -25,12 +26,18 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  register(data: RegisterDto): Observable<any> {
-    return this.http.post(`${this.API_BASE}/register`, data);
+  register(data: RegisterDto): Observable<ApiResponse<RegisterDto>> {
+    return this.http.post<ApiResponse<RegisterDto>>(
+      `${this.API_BASE}/register`,
+      data
+    );
   }
 
-  login(data: LoginDto): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.API_BASE}/login`, data);
+  login(data: LoginDto): Observable<ApiResponse<LoginResponse>> {
+    return this.http.post<ApiResponse<LoginResponse>>(
+      `${this.API_BASE}/login`,
+      data
+    );
   }
 
   storeToken(token: string) {
