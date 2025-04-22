@@ -9,6 +9,9 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { AuthService } from '../../../service/auth/auth.service';
+import { Router, RouterModule } from '@angular/router';
+import { ToastService } from '../../../service/toast/toast.service';
 
 interface RegisterForm {
   name: FormControl<string | null>;
@@ -20,14 +23,19 @@ interface RegisterForm {
 @Component({
   standalone: true,
   selector: 'app-register',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   form: FormGroup;
 
-  constructor(private fb: NonNullableFormBuilder) {
+  constructor(
+    private fb: NonNullableFormBuilder,
+    private auth: AuthService,
+    private router: Router,
+    private toast: ToastService
+  ) {
     this.form = this.fb.group<RegisterForm>(
       {
         name: this.fb.control(null, { validators: [Validators.required] }),
@@ -54,8 +62,16 @@ export class RegisterComponent {
   register() {
     if (this.form.valid) {
       const { name, email, password } = this.form.value;
-      console.log('Registering:', { name, email, password });
-      // TODO: call backend API
+
+      this.auth.register({ name, email, password }).subscribe({
+        next: () => {
+          console.log('Registered successfully');
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          this.toast.error(err?.error?.message || 'Registration failed');
+        },
+      });
     }
   }
 }

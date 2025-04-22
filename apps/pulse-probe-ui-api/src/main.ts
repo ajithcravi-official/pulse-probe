@@ -15,6 +15,11 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get<number>(EnvConfig.API_PORT);
 
+  app.enableCors({
+    origin: configService.get<string>(EnvConfig.API_UI_URL),
+    credentials: true,
+  });
+
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalInterceptors(new ResponseInterceptor());

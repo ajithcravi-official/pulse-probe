@@ -1,8 +1,11 @@
 import { Route } from '@angular/router';
+import { authGuard } from './guard/auth.guard';
+import { loginGuard } from './guard/login.guard';
 
 export const appRoutes: Route[] = [
   {
     path: 'login',
+    canActivate: [loginGuard],
     loadComponent: () =>
       import('./pages/auth/login/login.component').then(
         (m) => m.LoginComponent
@@ -10,6 +13,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'register',
+    canActivate: [loginGuard],
     loadComponent: () =>
       import('./pages/auth/register/register.component').then(
         (m) => m.RegisterComponent
@@ -18,6 +22,7 @@ export const appRoutes: Route[] = [
   // Application layout route (post-login)
   {
     path: 'app',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./pages/application/layout/layout.component').then(
         (m) => m.LayoutComponent
@@ -30,7 +35,7 @@ export const appRoutes: Route[] = [
             (m) => m.DashboardComponent
           ),
       },
-      // Add more child routes here
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
   {
