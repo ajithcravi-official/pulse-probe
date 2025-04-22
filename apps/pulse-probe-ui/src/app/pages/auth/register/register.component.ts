@@ -12,6 +12,7 @@ import {
 import { AuthService } from '../../../service/auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { ToastService } from '../../../service/toast/toast.service';
+import { LoaderService } from '../../../service/loader/loader.service';
 
 interface RegisterForm {
   name: FormControl<string | null>;
@@ -33,6 +34,7 @@ export class RegisterComponent {
   constructor(
     private fb: NonNullableFormBuilder,
     private auth: AuthService,
+    private loaderService: LoaderService,
     private router: Router,
     private toast: ToastService
   ) {
@@ -61,6 +63,7 @@ export class RegisterComponent {
 
   register() {
     if (this.form.valid) {
+      this.loaderService.startLoading();
       const { name, email, password } = this.form.value;
 
       this.auth.register({ name, email, password }).subscribe({
@@ -71,6 +74,7 @@ export class RegisterComponent {
         error: (err) => {
           this.toast.error(err?.error?.message || 'Registration failed');
         },
+        complete: () => this.loaderService.stopLoading(),
       });
     }
   }

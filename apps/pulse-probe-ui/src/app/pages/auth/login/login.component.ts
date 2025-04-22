@@ -10,6 +10,7 @@ import {
 import { AuthService } from '../../../service/auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { ToastService } from '../../../service/toast/toast.service';
+import { LoaderService } from '../../../service/loader/loader.service';
 
 interface LoginForm {
   email: FormControl<string>;
@@ -29,6 +30,7 @@ export class LoginComponent {
   constructor(
     private fb: NonNullableFormBuilder,
     private auth: AuthService,
+    private loaderService: LoaderService,
     private router: Router,
     private toast: ToastService
   ) {
@@ -42,6 +44,7 @@ export class LoginComponent {
 
   login() {
     if (this.form.valid) {
+      this.loaderService.startLoading();
       const { email, password } = this.form.value;
       this.auth.login({ email, password }).subscribe({
         next: (res) => {
@@ -51,6 +54,7 @@ export class LoginComponent {
         error: (err) => {
           this.toast.error(err?.error?.message || 'Login failed');
         },
+        complete: () => this.loaderService.stopLoading(),
       });
     }
   }

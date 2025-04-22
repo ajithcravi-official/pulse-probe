@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { LoaderService } from '../../../service/loader/loader.service';
 
 @Component({
   standalone: true,
@@ -10,13 +11,17 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './layout.component.scss',
 })
 export class LayoutComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private loaderService: LoaderService) {}
 
   logout() {
+    this.loaderService.startLoading();
+
     // Clear token or session
     localStorage.clear(); // Or specific item: localStorage.removeItem('token');
 
     // Redirect to login
     this.router.navigate(['/login']);
+
+    this.loaderService.stopLoading();
   }
 }
