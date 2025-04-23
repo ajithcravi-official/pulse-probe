@@ -6,6 +6,7 @@
     "ui": "nx serve pulse-probe-ui",
     "api": "nx serve pulse-probe-ui-api",
     "train": "nx serve pulse-probe-engine",
+    "build": "nx build",
     "build:all": "nx run-many -t build"
   },
   "private": true,
