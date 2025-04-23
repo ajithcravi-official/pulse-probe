@@ -14,6 +14,7 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
   const port = process.env.PORT; // Used like this because Render isexpecting so
+  const host = '0.0.0.0';
 
   app.enableCors({
     origin: configService.get<string>(EnvConfig.API_UI_URL),
@@ -24,10 +25,9 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalInterceptors(new ResponseInterceptor());
 
-  await app.listen(port);
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
-  );
+  await app.listen(port, host, () => {
+    Logger.log(`🚀 Application is running on port ${port}`);
+  });
 }
 
 bootstrap();
