@@ -13,7 +13,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
-  const port = configService.get<number>(EnvConfig.API_PORT);
+  const port = process.env.PORT; // Used like this because Render isexpecting so
 
   app.enableCors({
     origin: configService.get<string>(EnvConfig.API_UI_URL),
