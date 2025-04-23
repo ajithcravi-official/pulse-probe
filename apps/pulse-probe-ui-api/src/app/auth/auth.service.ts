@@ -76,8 +76,7 @@ export class AuthService {
         name: user.name,
         email: user.email,
       },
-      'User registered successfully',
-      201
+      'User registered successfully'
     );
   }
 }
