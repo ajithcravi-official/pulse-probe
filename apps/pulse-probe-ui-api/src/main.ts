@@ -13,7 +13,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
-  const port = process.env.PORT; // Used like this because Render isexpecting so
+  const port = process.env.PORT || 4000; // Used like this because Render isexpecting so
   const host = '0.0.0.0';
 
   app.enableCors();
