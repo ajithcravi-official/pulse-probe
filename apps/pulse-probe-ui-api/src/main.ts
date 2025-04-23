@@ -16,10 +16,7 @@ async function bootstrap() {
   const port = process.env.PORT; // Used like this because Render isexpecting so
   const host = '0.0.0.0';
 
-  app.enableCors({
-    origin: configService.get<string>(EnvConfig.API_UI_URL),
-    credentials: true,
-  });
+  app.enableCors();
 
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
