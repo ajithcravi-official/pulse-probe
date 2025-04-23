@@ -13,7 +13,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
-  const port = process.env.PORT || 4000; // Used like this because Render isexpecting so
+  const port = process.env.PORT; // Used like this because Render isexpecting so
   const host = '0.0.0.0';
 
   app.enableCors();
@@ -22,7 +22,7 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalInterceptors(new ResponseInterceptor());
 
-  await app.listen(port, host, () => {
+  await app.listen(parseInt(port), host, () => {
     Logger.log(`🚀 Application is running on port ${port}`);
   });
 }
