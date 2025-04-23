@@ -10,6 +10,10 @@ import { ConfigService } from '@nestjs/config';
 import { EnvConfig, ResponseInterceptor } from './app/common';
 
 async function bootstrap() {
+  console.log('****');
+  console.log(process.env.PORT);
+  console.log(process.env.API_MONGO_URI);
+  console.log(process.env.API_JWT_SECRET);
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
